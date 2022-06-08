@@ -1,9 +1,20 @@
-const http = require('http');
+const express = require('express')
+const bodyParser = require('body-parser')
 
-const routes = require('./routes');
+const app = express()
 
-console.log(routes.text);
-const server = http.createServer( routes.handler );
+const adminRouter = require('./routes/admin')
+const shopRouter = require('./routes/shop')
 
-server.listen(3000);
+app.use(bodyParser.urlencoded()) // req body parser
+app.use(express.static('public')) // static files
+
+app.use('/admin', adminRouter)
+app.use('/shop', shopRouter)
+
+app.use((req, res, next) => {
+    res.status(404).sendFile('404.html', {root: 'views'})
+})
+
+app.listen(3000)
 
