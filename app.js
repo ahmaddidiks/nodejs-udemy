@@ -3,20 +3,17 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
+const adminRouter = require('./routes/admin')
+const shopRouter = require('./routes/shop')
+
 app.use(bodyParser.urlencoded()) // req body parser
+app.use(express.static('public')) // static files
 
+app.use('/admin', adminRouter)
+app.use('/shop', shopRouter)
 
-app.use( '/add-product', (req, res, next) => { // test page
-    res.send('<form action="/product" method="POST"><input type="text" name="title"> <button type="submit"> Add product </button></form>')
-})
-
-app.use( '/product', (req, res, next) => { // test page
-    console.log(req.body)
-    res.redirect('/')
-})
-
-app.use( '/', (req, res, next) => { // main page
-    res.send("<h1> Hello from express </h1>")
+app.use((req, res, next) => {
+    res.status(404).sendFile('404.html', {root: 'views'})
 })
 
 app.listen(3000)
