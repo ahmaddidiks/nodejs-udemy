@@ -6,10 +6,12 @@ const app = express()
 const adminRouter = require('./routes/admin')
 const shopRouter = require('./routes/shop')
 
+
+
 app.use(bodyParser.urlencoded()) // req body parser
 app.use(express.static('public')) // static files
 
-app.use('/admin', adminRouter)
+app.use('/admin', adminRouter.router)
 app.use('/shop', shopRouter)
 
 app.use((req, res, next) => {
