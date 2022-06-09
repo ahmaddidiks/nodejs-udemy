@@ -5,7 +5,13 @@ const products = []
 
 // /admin/add-product => GET
 router.get( '/add-product', (req, res, next) => { // test page
-    res.render('add-product', {pageTitle: 'Add Product', path: '/admin/add-product'})
+    res.render('add-product', {
+        pageTitle: 'Add Product',
+        path: '/admin/add-product',
+        formCSS: true,
+        activeAddProduct: true,
+        productCSS: true
+    })
 })
 
 // /admin/add-product => POST
