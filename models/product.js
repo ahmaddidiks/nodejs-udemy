@@ -33,7 +33,7 @@ module.exports = class Product{
   }
 
   save() {
-      this.getProductsFromFile(products => {
+      Product.getProductsFromFile(products => {
         products.push(this);
         fs.writeFile(Product.path, JSON.stringify(products), err => {
           console.log(err);
@@ -42,6 +42,6 @@ module.exports = class Product{
     }
 
   static fetchAll(cb) {
-    this.getProductsFromFile(cb);
+    Product.getProductsFromFile(cb);
   }
 }
