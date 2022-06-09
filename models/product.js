@@ -2,36 +2,46 @@ const fs = require('fs');
 const path = require('path');
 
 const p = path.join(
-    path.dirname(__filename),
+  path.dirname(process.mainModule.filename),
+  'data',
+  'products.json'
+);
+
+module.exports = class Product{
+  
+  constructor(title){
+      this.title = title
+      
+  }
+
+  // static = Static class methods are defined on the class itself.
+  static path = path.join( 
+    path.dirname(process.mainModule.filename),
     'data',
     'products.json'
-)
-const getProductsFromFile = cb => {
-    console.log(p)
-    fs.readFile(p, (err, fileContent) => {
+  )
+
+  static getProductsFromFile(cb) {
+    console.log(Product.path)
+    fs.readFile(Product.path, (err, fileContent) => {
       if (err) {
         cb([]);
       } else {
         cb(JSON.parse(fileContent));
       }
-    });
+    })
   }
 
-module.exports = class Product{
-    constructor(title){
-        this.title = title
+  save() {
+      this.getProductsFromFile(products => {
+        products.push(this);
+        fs.writeFile(Product.path, JSON.stringify(products), err => {
+          console.log(err);
+        });
+      });
     }
 
-    save() {
-        getProductsFromFile(products => {
-          products.push(this);
-          fs.writeFile(p, JSON.stringify(products), err => {
-            console.log(err);
-          });
-        });
-      }
-
-      static fetchAll(cb) {
-        getProductsFromFile(cb);
-      }
+  static fetchAll(cb) {
+    this.getProductsFromFile(cb);
+  }
 }
