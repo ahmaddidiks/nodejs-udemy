@@ -12,7 +12,7 @@ const shopRouter = require('./routes/shop')
 app.use(bodyParser.urlencoded()) // req body parser
 app.use(express.static('public')) // static files
 
-app.use('/admin', adminRouter.router)
+app.use('/admin', adminRouter)
 app.use(shopRouter)
 
 app.use(errorController.get404)
